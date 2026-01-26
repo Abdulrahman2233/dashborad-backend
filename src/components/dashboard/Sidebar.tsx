@@ -8,7 +8,6 @@ import {
   Percent,
   Activity,
   Settings,
-  ChevronRight,
   Menu,
   X,
 } from "lucide-react";
@@ -23,71 +22,61 @@ const navItems = [
 ];
 
 export function Sidebar() {
-  const [collapsed, setCollapsed] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
   return (
     <>
-      {/* Mobile overlay */}
-      <div
-        className={cn(
-          "fixed inset-0 bg-background/80 backdrop-blur-sm z-40 lg:hidden transition-opacity",
-          collapsed ? "opacity-0 pointer-events-none" : "opacity-100"
-        )}
-        onClick={() => setCollapsed(true)}
-      />
-
-      {/* Mobile toggle */}
+      {/* Mobile toggle button */}
       <button
-        onClick={() => setCollapsed(!collapsed)}
-        className="fixed top-4 right-4 z-50 lg:hidden p-2 rounded-lg bg-card border border-border"
+        onClick={() => setIsOpen(!isOpen)}
+        className="fixed top-4 right-4 z-50 lg:hidden p-2.5 rounded-xl bg-card border border-border shadow-lg"
       >
-        {collapsed ? <Menu className="h-5 w-5" /> : <X className="h-5 w-5" />}
+        {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
       </button>
 
+      {/* Mobile overlay */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-foreground/20 backdrop-blur-sm z-40 lg:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
       <aside
         className={cn(
-          "fixed right-0 top-0 z-40 h-screen bg-sidebar border-l border-sidebar-border transition-all duration-300",
-          collapsed ? "-translate-x-full lg:translate-x-0 lg:w-20" : "w-72",
+          "fixed right-0 top-0 z-40 h-screen bg-card border-l border-border transition-transform duration-300 w-64",
+          isOpen ? "translate-x-0" : "translate-x-full",
           "lg:relative lg:translate-x-0"
         )}
       >
         {/* Logo */}
-        <div className="flex h-20 items-center justify-between px-6 border-b border-sidebar-border">
-          <div className={cn("flex items-center gap-3", collapsed && "lg:justify-center lg:w-full")}>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-accent">
-              <Building2 className="h-5 w-5 text-primary-foreground" />
-            </div>
-            {!collapsed && (
-              <span className="text-lg font-bold gradient-text">عقاري</span>
-            )}
+        <div className="flex h-16 items-center gap-3 px-6 border-b border-border">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary">
+            <Building2 className="h-5 w-5 text-primary-foreground" />
           </div>
-          <button
-            onClick={() => setCollapsed(!collapsed)}
-            className="hidden lg:flex h-8 w-8 items-center justify-center rounded-lg hover:bg-sidebar-accent transition-colors"
-          >
-            <ChevronRight className={cn("h-4 w-4 transition-transform", collapsed && "rotate-180")} />
-          </button>
+          <span className="text-xl font-bold gradient-text">عقاري</span>
         </div>
 
         {/* Navigation */}
-        <nav className="p-4 space-y-2">
+        <nav className="p-4 space-y-1">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path;
             return (
               <NavLink
                 key={item.path}
                 to={item.path}
+                onClick={() => setIsOpen(false)}
                 className={cn(
                   "flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200",
                   isActive
-                    ? "bg-primary/10 text-primary border border-primary/20"
-                    : "text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground",
-                  collapsed && "lg:justify-center lg:px-3"
+                    ? "bg-primary text-primary-foreground shadow-md"
+                    : "text-muted-foreground hover:bg-secondary hover:text-foreground"
                 )}
               >
-                <item.icon className={cn("h-5 w-5 flex-shrink-0", isActive && "text-primary")} />
-                {!collapsed && <span className="font-medium">{item.title}</span>}
+                <item.icon className="h-5 w-5 flex-shrink-0" />
+                <span className="font-medium">{item.title}</span>
               </NavLink>
             );
           })}

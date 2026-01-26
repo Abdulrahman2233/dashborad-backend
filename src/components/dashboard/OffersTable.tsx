@@ -15,27 +15,52 @@ const offers: Offer[] = [
   { id: "2", name: "خصم العملاء الجدد", discount: 10, usage: 189, status: "active", revenue: 89000 },
   { id: "3", name: "عرض نهاية السنة", discount: 20, usage: 156, status: "expired", revenue: 156000 },
   { id: "4", name: "خصم VIP", discount: 25, usage: 78, status: "active", revenue: 234000 },
-  { id: "5", name: "عرض رمضان", discount: 30, usage: 0, status: "scheduled", revenue: 0 },
 ];
 
 const statusMap = {
-  active: { label: "نشط", className: "bg-success/10 text-success border-success/20" },
-  expired: { label: "منتهي", className: "bg-destructive/10 text-destructive border-destructive/20" },
-  scheduled: { label: "مجدول", className: "bg-warning/10 text-warning border-warning/20" },
+  active: { label: "نشط", className: "bg-green-100 text-green-700 border-green-200" },
+  expired: { label: "منتهي", className: "bg-red-100 text-red-700 border-red-200" },
+  scheduled: { label: "مجدول", className: "bg-amber-100 text-amber-700 border-amber-200" },
 };
 
 export function OffersTable() {
   return (
-    <div className="card-glow rounded-xl bg-card border border-border/50 overflow-hidden">
-      <div className="p-6 border-b border-border/50">
-        <h3 className="text-lg font-semibold">💳 الخصومات والعروض</h3>
-        <p className="text-sm text-muted-foreground">أكثر الخصومات استخداماً</p>
+    <div className="card-glow rounded-xl bg-card border border-border overflow-hidden">
+      <div className="p-4 lg:p-6 border-b border-border">
+        <h3 className="text-base lg:text-lg font-semibold">💳 الخصومات والعروض</h3>
       </div>
       
-      <div className="overflow-x-auto">
+      {/* Mobile cards */}
+      <div className="lg:hidden p-4 space-y-3">
+        {offers.map((offer) => (
+          <div key={offer.id} className="p-4 rounded-lg bg-secondary/30 space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="font-medium">{offer.name}</span>
+              <Badge variant="outline" className={cn("border text-xs", statusMap[offer.status].className)}>
+                {statusMap[offer.status].label}
+              </Badge>
+            </div>
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-muted-foreground">الخصم</span>
+              <span className="font-medium text-primary">{offer.discount}%</span>
+            </div>
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-muted-foreground">الاستخدام</span>
+              <span>{offer.usage} مرة</span>
+            </div>
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-muted-foreground">الإيرادات</span>
+              <span className="font-medium">{offer.revenue.toLocaleString()} ر.س</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop table */}
+      <div className="hidden lg:block overflow-x-auto">
         <table className="w-full">
           <thead>
-            <tr className="border-b border-border/50">
+            <tr className="border-b border-border bg-secondary/30">
               <th className="text-right px-6 py-4 text-sm font-medium text-muted-foreground">الاسم</th>
               <th className="text-right px-6 py-4 text-sm font-medium text-muted-foreground">الخصم</th>
               <th className="text-right px-6 py-4 text-sm font-medium text-muted-foreground">الاستخدام</th>
@@ -45,7 +70,7 @@ export function OffersTable() {
           </thead>
           <tbody>
             {offers.map((offer) => (
-              <tr key={offer.id} className="border-b border-border/30 hover:bg-secondary/30 transition-colors">
+              <tr key={offer.id} className="border-b border-border/50 hover:bg-secondary/20 transition-colors">
                 <td className="px-6 py-4 font-medium">{offer.name}</td>
                 <td className="px-6 py-4">
                   <span className="inline-flex items-center justify-center px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-sm font-medium">
@@ -58,9 +83,7 @@ export function OffersTable() {
                     {statusMap[offer.status].label}
                   </Badge>
                 </td>
-                <td className="px-6 py-4 font-medium">
-                  {offer.revenue.toLocaleString()} ر.س
-                </td>
+                <td className="px-6 py-4 font-medium">{offer.revenue.toLocaleString()} ر.س</td>
               </tr>
             ))}
           </tbody>
