@@ -8,41 +8,41 @@ interface BarChartProps {
 
 export function BarChart({ data, title, subtitle }: BarChartProps) {
   return (
-    <div className="card-glow rounded-xl bg-card p-6 border border-border/50">
-      <div className="mb-6">
-        <h3 className="text-lg font-semibold">{title}</h3>
-        {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
+    <div className="card-glow rounded-xl bg-card p-4 lg:p-6 border border-border">
+      <div className="mb-4 lg:mb-6">
+        <h3 className="text-base lg:text-lg font-semibold">{title}</h3>
+        {subtitle && <p className="text-xs lg:text-sm text-muted-foreground">{subtitle}</p>}
       </div>
       
-      <div className="h-64">
+      <div className="h-48 lg:h-64">
         <ResponsiveContainer width="100%" height="100%">
           <RechartsBar data={data} layout="vertical">
             <defs>
               <linearGradient id="barGradient" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="hsl(199 89% 48%)" />
-                <stop offset="100%" stopColor="hsl(187 85% 43%)" />
+                <stop offset="0%" stopColor="#0ea5e9" />
+                <stop offset="100%" stopColor="#14b8a6" />
               </linearGradient>
             </defs>
             <XAxis 
               type="number"
               axisLine={false} 
               tickLine={false}
-              tick={{ fill: 'hsl(210 20% 60%)', fontSize: 12 }}
+              tick={{ fill: '#64748b', fontSize: 11 }}
             />
             <YAxis 
               type="category"
               dataKey="name"
               axisLine={false} 
               tickLine={false}
-              tick={{ fill: 'hsl(210 20% 60%)', fontSize: 12 }}
-              width={80}
+              tick={{ fill: '#64748b', fontSize: 11 }}
+              width={60}
             />
             <Tooltip
               contentStyle={{
-                backgroundColor: 'hsl(215 35% 12%)',
-                border: '1px solid hsl(215 30% 22%)',
+                backgroundColor: '#ffffff',
+                border: '1px solid #e2e8f0',
                 borderRadius: '8px',
-                color: 'hsl(210 40% 98%)',
+                color: '#1e293b',
               }}
             />
             <Bar 
