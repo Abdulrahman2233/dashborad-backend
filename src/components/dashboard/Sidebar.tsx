@@ -10,12 +10,14 @@ import {
   Settings,
   Menu,
   X,
+  Globe,
 } from "lucide-react";
 
 const navItems = [
   { title: "الرئيسية", icon: LayoutDashboard, path: "/" },
   { title: "تحليل العقارات", icon: Building2, path: "/properties" },
   { title: "تحليل المستخدمين", icon: Users, path: "/users" },
+  { title: "زوار الموقع", icon: Globe, path: "/visitors" },
   { title: "العروض والخصومات", icon: Percent, path: "/offers" },
   { title: "سجل النشاط", icon: Activity, path: "/activity" },
   { title: "الإعدادات", icon: Settings, path: "/settings" },

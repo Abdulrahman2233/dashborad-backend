@@ -1,10 +1,100 @@
+import { useState, useEffect } from "react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
-import { User, Bell, Shield, Palette } from "lucide-react";
+import { User, Bell, Shield, Palette, Moon, Sun, MessageSquare, Building2 } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { useTheme } from "@/contexts/ThemeContext";
 
 const Settings = () => {
+  const { theme, toggleTheme } = useTheme();
+  const [notifications, setNotifications] = useState({
+    email: true,
+    app: true,
+    properties: true,
+    messages: true,
+  });
+
+  const handleNotificationChange = (key: keyof typeof notifications) => {
+    setNotifications((prev) => {
+      const newState = { ...prev, [key]: !prev[key] };
+      localStorage.setItem("notifications", JSON.stringify(newState));
+      return newState;
+    });
+  };
+
+  useEffect(() => {
+    const saved = localStorage.getItem("notifications");
+    if (saved) {
+      setNotifications(JSON.parse(saved));
+    }
+  }, []);
+
   return (
     <DashboardLayout title="الإعدادات">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
+        {/* Dark Mode */}
+        <div className="card-glow rounded-xl bg-card p-4 lg:p-6 border border-border">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+              {theme === "dark" ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
+            </div>
+            <h3 className="text-lg font-semibold">الوضع المظلم 🌙</h3>
+          </div>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between p-4 rounded-lg bg-secondary/30">
+              <div>
+                <p className="font-medium">تفعيل الوضع المظلم</p>
+                <p className="text-sm text-muted-foreground">تغيير مظهر التطبيق إلى الوضع الليلي</p>
+              </div>
+              <Switch checked={theme === "dark"} onCheckedChange={toggleTheme} />
+            </div>
+            <div className="p-4 rounded-lg bg-secondary/30">
+              <p className="text-sm text-muted-foreground">
+                الوضع الحالي: <span className="font-medium text-foreground">{theme === "dark" ? "مظلم" : "فاتح"}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Notifications */}
+        <div className="card-glow rounded-xl bg-card p-4 lg:p-6 border border-border">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+              <Bell className="h-5 w-5" />
+            </div>
+            <h3 className="text-lg font-semibold">الإشعارات 🔔</h3>
+          </div>
+          <div className="space-y-3">
+            <div className="flex items-center justify-between p-3 rounded-lg bg-secondary/30">
+              <div className="flex items-center gap-3">
+                <MessageSquare className="h-4 w-4 text-muted-foreground" />
+                <span>رسالة جديدة</span>
+              </div>
+              <Switch checked={notifications.messages} onCheckedChange={() => handleNotificationChange("messages")} />
+            </div>
+            <div className="flex items-center justify-between p-3 rounded-lg bg-secondary/30">
+              <div className="flex items-center gap-3">
+                <Building2 className="h-4 w-4 text-muted-foreground" />
+                <span>تنبيهات العقارات</span>
+              </div>
+              <Switch checked={notifications.properties} onCheckedChange={() => handleNotificationChange("properties")} />
+            </div>
+            <div className="flex items-center justify-between p-3 rounded-lg bg-secondary/30">
+              <div className="flex items-center gap-3">
+                <Bell className="h-4 w-4 text-muted-foreground" />
+                <span>إشعارات التطبيق</span>
+              </div>
+              <Switch checked={notifications.app} onCheckedChange={() => handleNotificationChange("app")} />
+            </div>
+            <div className="flex items-center justify-between p-3 rounded-lg bg-secondary/30">
+              <div className="flex items-center gap-3">
+                <User className="h-4 w-4 text-muted-foreground" />
+                <span>إشعارات البريد</span>
+              </div>
+              <Switch checked={notifications.email} onCheckedChange={() => handleNotificationChange("email")} />
+            </div>
+          </div>
+        </div>
+
         {/* Profile Settings */}
         <div className="card-glow rounded-xl bg-card p-4 lg:p-6 border border-border">
           <div className="flex items-center gap-3 mb-4">
@@ -25,26 +115,6 @@ const Settings = () => {
             <button className="w-full py-2.5 rounded-lg bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors">
               حفظ التغييرات
             </button>
-          </div>
-        </div>
-
-        {/* Notifications */}
-        <div className="card-glow rounded-xl bg-card p-4 lg:p-6 border border-border">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-              <Bell className="h-5 w-5" />
-            </div>
-            <h3 className="text-lg font-semibold">الإشعارات</h3>
-          </div>
-          <div className="space-y-4">
-            {["إشعارات البريد", "إشعارات التطبيق", "تنبيهات العقارات", "رسائل المستخدمين"].map((item, i) => (
-              <div key={i} className="flex items-center justify-between p-3 rounded-lg bg-secondary/30">
-                <span>{item}</span>
-                <div className="w-12 h-6 bg-primary rounded-full relative cursor-pointer">
-                  <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full" />
-                </div>
-              </div>
-            ))}
           </div>
         </div>
 
@@ -72,14 +142,14 @@ const Settings = () => {
         </div>
 
         {/* Appearance */}
-        <div className="card-glow rounded-xl bg-card p-4 lg:p-6 border border-border">
+        <div className="card-glow rounded-xl bg-card p-4 lg:p-6 border border-border lg:col-span-2">
           <div className="flex items-center gap-3 mb-4">
             <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
               <Palette className="h-5 w-5" />
             </div>
-            <h3 className="text-lg font-semibold">المظهر</h3>
+            <h3 className="text-lg font-semibold">المظهر والتفضيلات</h3>
           </div>
-          <div className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="p-3 rounded-lg bg-secondary/30">
               <span className="text-sm text-muted-foreground">اللغة</span>
               <p className="font-medium">العربية</p>
