@@ -1,4 +1,5 @@
-import { Bell, Search, User } from "lucide-react";
+import { Search, User } from "lucide-react";
+import { NotificationsPopover } from "./NotificationsPopover";
 
 export function Header({ title }: { title: string }) {
   return (
@@ -19,10 +20,7 @@ export function Header({ title }: { title: string }) {
         </div>
         
         {/* Notifications */}
-        <button className="relative p-2 rounded-xl hover:bg-secondary transition-colors">
-          <Bell className="h-5 w-5 text-muted-foreground" />
-          <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-destructive animate-pulse" />
-        </button>
+        <NotificationsPopover />
         
         {/* Profile */}
         <button className="flex items-center gap-2 p-2 rounded-xl hover:bg-secondary transition-colors">
