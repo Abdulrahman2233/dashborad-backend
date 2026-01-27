@@ -36,11 +36,23 @@
 
     --radius: 0.75rem;
 
-    /* Custom colors */
+    /* Custom semantic colors */
     --blue-glow: 199 100% 60%;
     --cyan-accent: 187 85% 53%;
     --success: 160 84% 39%;
+    --success-foreground: 0 0% 100%;
     --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    --info: 199 89% 48%;
+    --info-foreground: 0 0% 100%;
+
+    /* Status colors */
+    --status-approved: 160 84% 39%;
+    --status-approved-foreground: 160 70% 20%;
+    --status-rejected: 0 72% 51%;
+    --status-rejected-foreground: 0 60% 25%;
+    --status-pending: 38 92% 50%;
+    --status-pending-foreground: 38 80% 25%;
 
     --sidebar-background: 210 35% 96%;
     --sidebar-foreground: 215 25% 15%;
@@ -49,6 +61,63 @@
     --sidebar-accent: 199 30% 90%;
     --sidebar-accent-foreground: 215 25% 15%;
     --sidebar-border: 210 25% 88%;
+    --sidebar-ring: 199 89% 48%;
+  }
+
+  .dark {
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
+
+    --card: 222 47% 14%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 47% 14%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 199 89% 48%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 217 33% 20%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217 33% 18%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 187 85% 43%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62% 45%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 217 33% 25%;
+    --input: 217 33% 25%;
+    --ring: 199 89% 48%;
+
+    /* Custom semantic colors - dark mode */
+    --blue-glow: 199 100% 55%;
+    --cyan-accent: 187 85% 50%;
+    --success: 160 70% 45%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 80% 55%;
+    --warning-foreground: 0 0% 100%;
+    --info: 199 80% 55%;
+    --info-foreground: 0 0% 100%;
+
+    /* Status colors - dark mode */
+    --status-approved: 160 70% 40%;
+    --status-approved-foreground: 160 40% 85%;
+    --status-rejected: 0 60% 50%;
+    --status-rejected-foreground: 0 40% 90%;
+    --status-pending: 38 70% 50%;
+    --status-pending-foreground: 38 40% 90%;
+
+    --sidebar-background: 222 47% 12%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 199 89% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 217 33% 22%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 217 33% 25%;
     --sidebar-ring: 199 89% 48%;
   }
 }
@@ -67,16 +136,40 @@
 @layer utilities {
   .gradient-text {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(199 89% 48%) 0%, hsl(187 85% 43%) 100%);
+    background-image: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
   }
   
   .card-glow {
-    box-shadow: 0 4px 20px -4px hsl(199 89% 48% / 0.1);
+    box-shadow: 0 4px 20px -4px hsl(var(--primary) / 0.1);
     transition: box-shadow 0.3s ease, transform 0.3s ease;
   }
   
   .card-glow:hover {
-    box-shadow: 0 8px 30px -4px hsl(199 89% 48% / 0.2);
+    box-shadow: 0 8px 30px -4px hsl(var(--primary) / 0.2);
     transform: translateY(-2px);
+  }
+
+  .bg-status-approved {
+    background-color: hsl(var(--status-approved) / 0.15);
+  }
+  
+  .text-status-approved {
+    color: hsl(var(--status-approved-foreground));
+  }
+
+  .bg-status-rejected {
+    background-color: hsl(var(--status-rejected) / 0.15);
+  }
+  
+  .text-status-rejected {
+    color: hsl(var(--status-rejected-foreground));
+  }
+
+  .bg-status-pending {
+    background-color: hsl(var(--status-pending) / 0.15);
+  }
+  
+  .text-status-pending {
+    color: hsl(var(--status-pending-foreground));
   }
 }
