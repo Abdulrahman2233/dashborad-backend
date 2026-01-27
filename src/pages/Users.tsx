@@ -2,6 +2,7 @@ import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { StatCard } from "@/components/dashboard/StatCard";
 import { AreaChart } from "@/components/dashboard/AreaChart";
 import { DonutChart } from "@/components/dashboard/DonutChart";
+import { RecentAccountsList } from "@/components/dashboard/RecentAccountsList";
 import { Users as UsersIcon, UserPlus, Trophy, MapPin } from "lucide-react";
 
 const registrationData = [
@@ -37,6 +38,9 @@ const UsersPage = () => {
         <StatCard title="أفضل المالكين" value="45" icon={Trophy} />
         <StatCard title="المناطق النشطة" value="12" icon={MapPin} />
       </div>
+
+      {/* Recent Accounts List */}
+      <RecentAccountsList />
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
