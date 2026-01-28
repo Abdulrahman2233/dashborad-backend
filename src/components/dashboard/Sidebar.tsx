@@ -11,6 +11,7 @@ import {
   Menu,
   X,
   Globe,
+  MessageSquare,
 } from "lucide-react";
 
 const navItems = [
@@ -18,6 +19,7 @@ const navItems = [
   { title: "تحليل العقارات", icon: Building2, path: "/properties" },
   { title: "تحليل المستخدمين", icon: Users, path: "/users" },
   { title: "زوار الموقع", icon: Globe, path: "/visitors" },
+  { title: "الرسائل", icon: MessageSquare, path: "/messages" },
   { title: "العروض والخصومات", icon: Percent, path: "/offers" },
   { title: "سجل النشاط", icon: Activity, path: "/activity" },
   { title: "الإعدادات", icon: Settings, path: "/settings" },

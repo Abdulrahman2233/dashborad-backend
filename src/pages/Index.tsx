@@ -4,24 +4,38 @@ import {
   DollarSign, 
   MessageSquare, 
   CheckCircle2,
+  Eye,
+  TrendingUp,
 } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
-import { StatCard } from "@/components/dashboard/StatCard";
-import { AreaChart } from "@/components/dashboard/AreaChart";
-import { BarChart } from "@/components/dashboard/BarChart";
-import { DonutChart } from "@/components/dashboard/DonutChart";
-import { ActivityFeed } from "@/components/dashboard/ActivityFeed";
+import { StatsOverview } from "@/components/dashboard/StatsOverview";
+import { AdvancedAreaChart } from "@/components/dashboard/AdvancedAreaChart";
+import { AdvancedBarChart } from "@/components/dashboard/AdvancedBarChart";
+import { AdvancedDonutChart } from "@/components/dashboard/AdvancedDonutChart";
+import { LiveActivityWidget } from "@/components/dashboard/LiveActivityWidget";
+import { QuickActionsPanel } from "@/components/dashboard/QuickActionsPanel";
+import { PerformanceMetrics } from "@/components/dashboard/PerformanceMetrics";
 import { TopProperties } from "@/components/dashboard/TopProperties";
 import { RegionHeatmap } from "@/components/dashboard/RegionHeatmap";
 import { OffersTable } from "@/components/dashboard/OffersTable";
 
+const stats = [
+  { title: "إجمالي العقارات", value: "1,234", change: { value: 12, trend: "up" as const }, icon: Building2, color: "blue" },
+  { title: "المستخدمين النشطين", value: "856", change: { value: 8, trend: "up" as const }, icon: Users, color: "green" },
+  { title: "إجمالي الإيرادات", value: "٤٥٠ ألف", change: { value: 23, trend: "up" as const }, icon: DollarSign, color: "purple" },
+  { title: "رسائل جديدة", value: "24", change: { value: 5, trend: "down" as const }, icon: MessageSquare, color: "orange" },
+  { title: "نسبة الاعتماد", value: "94%", change: { value: 3, trend: "up" as const }, icon: CheckCircle2, color: "cyan" },
+];
+
 const revenueData = [
   { name: "يناير", value: 40000, value2: 24000 },
   { name: "فبراير", value: 30000, value2: 13980 },
-  { name: "مارس", value: 20000, value2: 98000 },
+  { name: "مارس", value: 45000, value2: 38000 },
   { name: "أبريل", value: 27800, value2: 39080 },
-  { name: "مايو", value: 18900, value2: 48000 },
-  { name: "يونيو", value: 23900, value2: 38000 },
+  { name: "مايو", value: 58900, value2: 48000 },
+  { name: "يونيو", value: 63900, value2: 38000 },
+  { name: "يوليو", value: 71000, value2: 52000 },
+  { name: "أغسطس", value: 68000, value2: 58000 },
 ];
 
 const propertyTypeData = [
@@ -37,49 +51,79 @@ const regionData = [
   { name: "الدمام", value: 180 },
   { name: "مكة", value: 150 },
   { name: "المدينة", value: 120 },
+  { name: "الطائف", value: 90 },
+];
+
+const viewsData = [
+  { name: "السبت", value: 1200, value2: 980 },
+  { name: "الأحد", value: 980, value2: 850 },
+  { name: "الاثنين", value: 1500, value2: 1200 },
+  { name: "الثلاثاء", value: 1300, value2: 1100 },
+  { name: "الأربعاء", value: 1800, value2: 1400 },
+  { name: "الخميس", value: 1450, value2: 1250 },
+  { name: "الجمعة", value: 850, value2: 700 },
 ];
 
 const Index = () => {
   return (
     <DashboardLayout title="لوحة التحكم">
-      {/* Stats Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 lg:gap-4">
-        <StatCard title="إجمالي العقارات" value="1,234" change={{ value: 12, trend: "up" }} icon={Building2} />
-        <StatCard title="المستخدمين النشطين" value="856" change={{ value: 8, trend: "up" }} icon={Users} />
-        <StatCard title="إجمالي الإيرادات" value="٤٥٠ ألف" change={{ value: 23, trend: "up" }} icon={DollarSign} />
-        <StatCard title="رسائل جديدة" value="24" change={{ value: 5, trend: "down" }} icon={MessageSquare} />
-        <StatCard title="نسبة الاعتماد" value="94%" change={{ value: 3, trend: "up" }} icon={CheckCircle2} />
+      {/* Stats Overview */}
+      <StatsOverview stats={stats} />
+
+      {/* Main Charts Row */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2">
+          <AdvancedAreaChart 
+            title="📈 تحليل الإيرادات" 
+            subtitle="مقارنة الأداء المالي للسنة الحالية والسابقة" 
+            data={revenueData}
+            trend={{ value: 23, trend: "up" }}
+          />
+        </div>
+        <AdvancedDonutChart 
+          title="🏢 توزيع أنواع العقارات" 
+          subtitle="التصنيف حسب نوع العقار" 
+          data={propertyTypeData} 
+          centerValue="1,234" 
+          centerLabel="عقار" 
+        />
       </div>
 
-      {/* Charts Row 1 */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
-        <AreaChart title="📈 تحليل الإيرادات" subtitle="مقارنة بالعام السابق" data={revenueData} />
-        <DonutChart title="🏢 أنواع العقارات" subtitle="توزيع حسب النوع" data={propertyTypeData} centerValue="1,234" centerLabel="عقار" />
+      {/* Second Row - Performance & Activity */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <AdvancedBarChart 
+          title="🏆 العقارات بحسب المناطق" 
+          subtitle="توزيع العقارات الجغرافي" 
+          data={regionData} 
+        />
+        <LiveActivityWidget />
+        <PerformanceMetrics />
       </div>
 
-      {/* Charts Row 2 */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
-        <BarChart title="🏆 العقارات بحسب المناطق" subtitle="الأكثر طلباً" data={regionData} />
+      {/* Third Row */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2">
+          <AdvancedAreaChart 
+            title="👁️ إحصائيات المشاهدات" 
+            subtitle="مقارنة المشاهدات اليومية" 
+            data={viewsData}
+            series={[
+              { key: "value", name: "هذا الأسبوع", color: "#8b5cf6" },
+              { key: "value2", name: "الأسبوع السابق", color: "#ec4899" },
+            ]}
+          />
+        </div>
+        <QuickActionsPanel />
+      </div>
+
+      {/* Properties Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <TopProperties />
         <RegionHeatmap />
       </div>
 
       {/* Offers Table */}
       <OffersTable />
-
-      {/* Activity */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
-        <ActivityFeed />
-        <AreaChart title="🕐 الأنشطة اليومية" subtitle="خلال الأسبوع" data={[
-          { name: "السبت", value: 120 },
-          { name: "الأحد", value: 98 },
-          { name: "الاثنين", value: 150 },
-          { name: "الثلاثاء", value: 130 },
-          { name: "الأربعاء", value: 180 },
-          { name: "الخميس", value: 145 },
-          { name: "الجمعة", value: 85 },
-        ]} />
-      </div>
     </DashboardLayout>
   );
 };
