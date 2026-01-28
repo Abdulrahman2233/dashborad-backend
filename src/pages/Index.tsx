@@ -4,17 +4,15 @@ import {
   DollarSign, 
   MessageSquare, 
   CheckCircle2,
-  Eye,
-  TrendingUp,
 } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { StatsOverview } from "@/components/dashboard/StatsOverview";
 import { AdvancedAreaChart } from "@/components/dashboard/AdvancedAreaChart";
-import { AdvancedBarChart } from "@/components/dashboard/AdvancedBarChart";
 import { AdvancedDonutChart } from "@/components/dashboard/AdvancedDonutChart";
 import { LiveActivityWidget } from "@/components/dashboard/LiveActivityWidget";
 import { QuickActionsPanel } from "@/components/dashboard/QuickActionsPanel";
-import { PerformanceMetrics } from "@/components/dashboard/PerformanceMetrics";
+import { AdvancedPerformanceMetrics } from "@/components/dashboard/AdvancedPerformanceMetrics";
+import { InteractiveHeatmap } from "@/components/dashboard/InteractiveHeatmap";
 import { TopProperties } from "@/components/dashboard/TopProperties";
 import { RegionHeatmap } from "@/components/dashboard/RegionHeatmap";
 import { OffersTable } from "@/components/dashboard/OffersTable";
@@ -45,14 +43,6 @@ const propertyTypeData = [
   { name: "أخرى", value: 8, color: "#f59e0b" },
 ];
 
-const regionData = [
-  { name: "الرياض", value: 450 },
-  { name: "جدة", value: 320 },
-  { name: "الدمام", value: 180 },
-  { name: "مكة", value: 150 },
-  { name: "المدينة", value: 120 },
-  { name: "الطائف", value: 90 },
-];
 
 const viewsData = [
   { name: "السبت", value: 1200, value2: 980 },
@@ -89,18 +79,18 @@ const Index = () => {
         />
       </div>
 
-      {/* Second Row - Performance & Activity */}
+      {/* Second Row - Heatmap & Activity */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <AdvancedBarChart 
-          title="🏆 العقارات بحسب المناطق" 
-          subtitle="توزيع العقارات الجغرافي" 
-          data={regionData} 
-        />
+        <div className="lg:col-span-2">
+          <InteractiveHeatmap />
+        </div>
         <LiveActivityWidget />
-        <PerformanceMetrics />
       </div>
 
-      {/* Third Row */}
+      {/* Third Row - Performance Metrics */}
+      <AdvancedPerformanceMetrics />
+
+      {/* Fourth Row - Views & Quick Actions */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
           <AdvancedAreaChart 
