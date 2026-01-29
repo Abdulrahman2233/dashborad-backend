@@ -87,7 +87,7 @@ export default function Profits() {
   };
 
   return (
-    <DashboardLayout>
+    <DashboardLayout title="إدارة الأرباح">
       <div className="space-y-6 lg:space-y-8">
         {/* Header with Add Transaction Button */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
