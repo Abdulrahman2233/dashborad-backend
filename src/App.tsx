@@ -12,6 +12,7 @@ import Offers from "./pages/Offers";
 import Activity from "./pages/Activity";
 import Settings from "./pages/Settings";
 import Messages from "./pages/Messages";
+import Profits from "./pages/Profits";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +33,7 @@ const App = () => (
             <Route path="/activity" element={<Activity />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/messages" element={<Messages />} />
+            <Route path="/profits" element={<Profits />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
