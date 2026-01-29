@@ -47,20 +47,18 @@ export function TransactionModal({ open, onOpenChange, onSubmit }: TransactionMo
     accountType: "",
     propertyType: "",
     rentPrice: "",
-    commission: "",
+    profit: "",
   });
 
-  const calculateProfit = () => {
-    const rent = parseFloat(formData.rentPrice) || 0;
-    const commission = parseFloat(formData.commission) || 0;
-    return rent - commission;
+  const getProfit = () => {
+    return parseFloat(formData.profit) || 0;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!formData.propertyName || !formData.region || !formData.accountType || 
-        !formData.propertyType || !formData.rentPrice || !formData.commission) {
+        !formData.propertyType || !formData.rentPrice || !formData.profit) {
       toast.error("يرجى ملء جميع الحقول");
       return;
     }
@@ -72,8 +70,8 @@ export function TransactionModal({ open, onOpenChange, onSubmit }: TransactionMo
       accountType: formData.accountType,
       propertyType: formData.propertyType,
       rentPrice: parseFloat(formData.rentPrice),
-      commission: parseFloat(formData.commission),
-      profit: calculateProfit(),
+      commission: 0,
+      profit: getProfit(),
       date: new Date().toISOString(),
     };
 
@@ -87,7 +85,7 @@ export function TransactionModal({ open, onOpenChange, onSubmit }: TransactionMo
       accountType: "",
       propertyType: "",
       rentPrice: "",
-      commission: "",
+      profit: "",
     });
     
     onOpenChange(false);
@@ -186,13 +184,13 @@ export function TransactionModal({ open, onOpenChange, onSubmit }: TransactionMo
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="commission">العمولة (ج.م)</Label>
+              <Label htmlFor="profit">أرباحك (ج.م)</Label>
               <Input
-                id="commission"
+                id="profit"
                 type="number"
                 placeholder="0"
-                value={formData.commission}
-                onChange={(e) => setFormData({ ...formData, commission: e.target.value })}
+                value={formData.profit}
+                onChange={(e) => setFormData({ ...formData, profit: e.target.value })}
               />
             </div>
           </div>
@@ -202,7 +200,7 @@ export function TransactionModal({ open, onOpenChange, onSubmit }: TransactionMo
             <div className="flex items-center justify-between">
               <span className="text-muted-foreground">ربحك النهائي:</span>
               <span className="text-2xl font-bold text-green-600">
-                {new Intl.NumberFormat("ar-EG").format(calculateProfit())} ج.م
+                {new Intl.NumberFormat("ar-EG").format(getProfit())} ج.م
               </span>
             </div>
           </div>
