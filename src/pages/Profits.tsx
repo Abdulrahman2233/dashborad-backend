@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { ProfitStatsCards } from "@/components/profits/ProfitStatsCards";
+import { VisitorsChart } from "@/components/profits/VisitorsChart";
 import { ProfitLineChart } from "@/components/profits/ProfitLineChart";
 import { TopAccountsChart } from "@/components/profits/TopAccountsChart";
 import { TransactionModal } from "@/components/profits/TransactionModal";
@@ -112,6 +113,9 @@ export default function Profits() {
 
         {/* Stats Cards */}
         <ProfitStatsCards />
+
+        {/* Visitors Chart - Full Width */}
+        <VisitorsChart />
 
         {/* Main Line Chart - Full Width */}
         <ProfitLineChart />
