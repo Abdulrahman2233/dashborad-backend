@@ -16,6 +16,7 @@ import { InteractiveHeatmap } from "@/components/dashboard/InteractiveHeatmap";
 import { TopProperties } from "@/components/dashboard/TopProperties";
 import { RegionHeatmap } from "@/components/dashboard/RegionHeatmap";
 import { OffersTable } from "@/components/dashboard/OffersTable";
+import { VisitorsChart } from "@/components/profits/VisitorsChart";
 
 const stats = [
   { title: "إجمالي العقارات", value: "1,234", change: { value: 12, trend: "up" as const }, icon: Building2, color: "blue" },
@@ -60,7 +61,8 @@ const Index = () => {
       {/* Stats Overview */}
       <StatsOverview stats={stats} />
 
-      {/* Main Charts Row */}
+      {/* Visitors Chart - Full Width */}
+      <VisitorsChart />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
           <AdvancedAreaChart 
